@@ -1,9 +1,15 @@
 import { Button } from 'react-bootstrap';
+import { useRouter } from 'next/router';
 import { signOut } from '../utils/auth';
-import { useAuth } from '../utils/context/authContext';
+// import { useAuth } from '../utils/context/authContext';
 
 function Home() {
-  const { user } = useAuth();
+  // const { user } = useAuth();
+  const router = useRouter();
+  const navigateTo = (path) => {
+    router.push(path);
+  };
+
   return (
     <div
       className="text-center d-flex flex-column justify-content-center align-content-center"
@@ -14,12 +20,13 @@ function Home() {
         margin: '0 auto',
       }}
     >
-      <h1>Hello {user.fbUser.displayName}! </h1>
-      <p>Your Bio: {user.bio}</p>
-      <p>Click the button below to logout!</p>
-      <Button variant="danger" type="button" size="lg" className="copy-btn" onClick={signOut}>
-        Sign Out
-      </Button>
+      <div style={{ marginTop: '-100px' }}>
+        <h3>Would You Like To....</h3>
+        <Button className="d-block w-100 mb-2" onClick={() => navigateTo('/events')}>View Events</Button>
+        <Button className="d-block w-100 mb-2" onClick={() => navigateTo('/inventory')}>Check Inventory</Button>
+        <Button className="d-block w-100 mb-2" onClick={() => navigateTo('/signups')}>Manage Your SignUps</Button>
+        <Button className="d-block w-100" onClick={signOut}>Sign Out</Button>
+      </div>
     </div>
   );
 }
