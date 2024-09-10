@@ -1,0 +1,78 @@
+import { clientCredentials } from '../utils/client';
+
+const endpoint = clientCredentials.databaseURL;
+
+const getEvents = (uid) => new Promise((resolve, reject) => {
+  fetch(`${endpoint}/events`, {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `${uid}`,
+    },
+  })
+    .then((response) => response.json())
+    .then(resolve)
+    .catch(reject);
+});
+
+const createEvent = (event) => new Promise((resolve, reject) => {
+  fetch(`${endpoint}/events`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(event),
+  })
+    .then((response) => response.json())
+    .then((data) => resolve(data))
+    .catch(reject);
+});
+
+const updateEvent = (payload) => new Promise((resolve, reject) => {
+  fetch(`${endpoint}/events/${payload.id}`, {
+    method: 'PUT',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(payload),
+  })
+    .then((data) => {
+      if (data) {
+        resolve(data);
+      } else {
+        resolve([]);
+      }
+    })
+    .catch(reject);
+});
+
+const getSingleEvent = (event) => new Promise((resolve, reject) => {
+  fetch(`${endpoint}/events/${event}`, {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  })
+    .then((response) => response.json())
+    .then((data) => resolve(data))
+    .catch(reject);
+});
+
+const deleteEvent = (id) => new Promise((resolve, reject) => {
+  fetch(`${endpoint}/events/${id}`, {
+    method: 'DELETE',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  })
+    .then(resolve)
+    .catch(reject);
+});
+
+export {
+  getEvents,
+  createEvent,
+  updateEvent,
+  getSingleEvent,
+  deleteEvent,
+};
