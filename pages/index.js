@@ -22,6 +22,7 @@ function Home() {
     >
       <div style={{ marginTop: '-100px' }}>
         <h3>Would You Like To....</h3>
+        <Button className="d-block w-100 mb-2" onClick={() => navigateTo('/events/new')}>Add New Event</Button>
         <Button className="d-block w-100 mb-2" onClick={() => navigateTo('/events')}>View Events</Button>
         <Button className="d-block w-100 mb-2" onClick={() => navigateTo('/inventory')}>Check Inventory</Button>
         <Button className="d-block w-100 mb-2" onClick={() => navigateTo('/signups')}>Manage Your SignUps</Button>
