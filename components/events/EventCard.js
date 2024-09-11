@@ -2,6 +2,7 @@ import { useRouter } from 'next/router';
 import PropTypes from 'prop-types';
 import React from 'react';
 import { Card, Button } from 'react-bootstrap';
+import { deleteEvent } from '../../api/eventData';
 // import { useAuth } from '../../utils/context/authContext';
 
 export default function EventCard({ eventObj, onUpdate }) {
@@ -10,13 +11,13 @@ export default function EventCard({ eventObj, onUpdate }) {
 
   const deleteThisEvent = () => {
     if (window.confirm('Delete this event?')) {
-      deleteThisEvent(eventObj.id).then(() => onUpdate());
+      deleteEvent(eventObj.id).then(() => onUpdate());
     }
   };
 
   return (
     <Card>
-      <Card.Header as="h5">Event Type: {eventObj.eventType.eventTypeName}</Card.Header>
+      <Card.Header as="h5">Event Type: {eventObj.eventType?.eventTypeName || 'Unknown'}</Card.Header>
       <Card.Body>
         <Card.Title>Location: {eventObj.location} </Card.Title>
         <Card.Text>
