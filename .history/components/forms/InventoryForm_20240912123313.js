@@ -41,7 +41,7 @@ function InventoryForm({ inventoryObj }) {
     e.preventDefault();
     if (inventoryObj.id) {
       console.warn('updateInventory', formInput);
-      updateInventory({ ...formInput, userId: user.id }).then(() => router.push('/inventories'));
+      updateInventory({...formInput, userId: user.id}).then(() => router.push('/inventories'));
     } else {
       const payload = { ...formInput, userId: user.id };
       createInventory(payload).then(() => router.push('/inventories'));
