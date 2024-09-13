@@ -6,10 +6,10 @@ import { updateInventory, createInventory } from '../../api/inventoryData';
 import { useAuth } from '../../utils/context/authContext';
 
 const initialState = {
-  foodType: '',
-  quantity: '',
-  pickupDate: '',
+  weekStartDate: '',
+  weekEndDate: '',
   pickupLocation: '',
+  items: [], // array of items!!
 };
 
 function InventoryForm({ inventoryObj }) {
@@ -20,10 +20,13 @@ function InventoryForm({ inventoryObj }) {
   useEffect(() => {
     if (inventoryObj.id) {
       setFormInput({
-        foodType: inventoryObj.foodType,
-        quantity: inventoryObj.quantity,
-        pickupDate: inventoryObj.pickupDate,
+        weekStartDate: inventoryObj.weekStartDate,
+        weekEndDate: inventoryObj.weekEndDate,
         pickupLocation: inventoryObj.pickupLocation,
+        items: inventoryObj.items.map((item) => ({
+          ...item,
+          id: item.id || Date.now() + Math.random(), // Generate unique ID if not present
+        })),
       });
     }
   }, [inventoryObj]);
@@ -36,7 +39,30 @@ function InventoryForm({ inventoryObj }) {
       [name]: value,
     }));
   };
+  const handleItemChange = (id, e) => {
+    const { name, value } = e.target;
+    const newItems = formInput.items.map((item) => {
+      if (item.id === id) {
+        return { ...item, [name]: value };
+      } return item;
+    });
+    setFormInput({ ...formInput, items: newItems });
+  };
+  const handleAddItem = () => {
+    setFormInput({
+      ...formInput,
+      items: [
+        ...formInput.items, {
+          id: Date.now() + Math.random(), foodType: '', quantity: '0', pickupDate: '',
+        }, // Added unique ID
+      ],
+    });
+  };
 
+  const handleRemoveItem = (id) => {
+    const newItems = formInput.items.filter((item) => item.id !== id);
+    setFormInput({ ...formInput, items: newItems });
+  };
   const handleSubmit = (e) => {
     e.preventDefault();
     if (inventoryObj.id) {
@@ -54,25 +80,62 @@ function InventoryForm({ inventoryObj }) {
       <Form onSubmit={handleSubmit}>
 
         <Form.Group className="mb-3">
-          <Form.Label>Produce</Form.Label>
-          <Form.Control name="foodType" required value={formInput.foodType} onChange={handleChange} />
+          <Form.Label>Week Start Date</Form.Label>
+          <Form.Control type="date" name="weekStartDate" required value={formInput.weekStartDate} onChange={handleChange} />
         </Form.Group>
 
         <Form.Group className="mb-3">
-          <Form.Label>Quantity</Form.Label>
-          <Form.Control name="quantity" required value={formInput.quantity} onChange={handleChange} />
-        </Form.Group>
-
-        <Form.Group className="mb-3">
-          <Form.Label>Pick up Date</Form.Label>
-          <Form.Control name="pickupDate" required value={formInput.pickupDate} onChange={handleChange} />
+          <Form.Label>weekEndDate</Form.Label>
+          <Form.Control type="date" name="weekEndDate" required value={formInput.weekEndDate} onChange={handleChange} />
         </Form.Group>
         <Form.Group className="mb-3">
           <Form.Label>Pick up Location</Form.Label>
-          <Form.Control name="pickupLocation" required value={formInput.pickupLocation} onChange={handleChange} />
+          <Form.Control type="text" name="pickupLocation" required value={formInput.pickupLocation} onChange={handleChange} />
         </Form.Group>
 
-        <Button variant="primary" type="submit">
+        {formInput.items.map((item, index) => (
+          <div key={item.id} className="mb-3">
+            <Form.Group>
+              <Form.Label>Food Type</Form.Label>
+              <Form.Control
+                type="text"
+                name="foodType"
+                value={item.foodType}
+                onChange={(e) => handleItemChange(item.id, e)}
+              />
+            </Form.Group>
+
+            <Form.Group>
+              <Form.Label>Quantity</Form.Label>
+              <Form.Control
+                type="text"
+                name="quantity"
+                value={item.quantity}
+                onChange={(e) => handleItemChange(item.id, e)}
+              />
+            </Form.Group>
+
+            <Form.Group>
+              <Form.Label>Pickup Date</Form.Label>
+              <Form.Control
+                type="date"
+                name="pickupDate"
+                value={item.pickupDate}
+                onChange={(e) => handleItemChange(item.id, e)}
+              />
+            </Form.Group>
+
+            <Button variant="danger" onClick={() => handleRemoveItem(index)}>
+              Remove Item
+            </Button>
+          </div>
+        ))}
+
+        <Button variant="primary" onClick={handleAddItem}>
+          Add Item
+        </Button>
+
+        <Button variant="success" type="submit">
           Submit
         </Button>
       </Form>
@@ -82,17 +145,33 @@ function InventoryForm({ inventoryObj }) {
 
 InventoryForm.propTypes = {
   inventoryObj: PropTypes.shape({
-    id: PropTypes.number.isRequired,
-    foodType: PropTypes.string.isRequired,
-    quantity: PropTypes.string.isRequired,
-    pickupDate: PropTypes.string.isRequired,
+    id: PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.number,
+    ]).isRequired,
+    weekStartDate: PropTypes.string.isRequired,
+    weekEndDate: PropTypes.string.isRequired,
     pickupLocation: PropTypes.string.isRequired,
+    items: PropTypes.arrayOf(
+      PropTypes.shape({
+        id: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+        foodType: PropTypes.string,
+        quantity: PropTypes.string,
+        pickupDate: PropTypes.string,
+      }),
+    ),
   }),
 
 };
 
 InventoryForm.defaultProps = {
-  inventoryObj: initialState,
+  inventoryObj: {
+    id: '',
+    weekStartDate: '',
+    weekEndDate: '',
+    pickupLocation: '',
+    items: [],
+  },
 };
 
 export default InventoryForm;

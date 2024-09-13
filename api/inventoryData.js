@@ -15,13 +15,13 @@ const getAllInventory = (uid) => new Promise((resolve, reject) => {
     .catch(reject);
 });
 
-const createInventory = (inventory) => new Promise((resolve, reject) => {
+const createInventory = (inventories) => new Promise((resolve, reject) => {
   fetch(`${endpoint}/inventories`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
     },
-    body: JSON.stringify(inventory),
+    body: JSON.stringify(inventories),
   })
     .then((response) => response.json())
     .then((data) => resolve(data))

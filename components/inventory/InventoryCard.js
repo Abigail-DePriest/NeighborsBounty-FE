@@ -17,12 +17,21 @@ export default function InventoryCard({ inventoryObj, onUpdate }) {
 
   return (
     <Card>
-      <Card.Header as="h5"> {inventoryObj.foodType}</Card.Header>
+      <Card.Header as="h5"> {inventoryObj.weekStartDate}</Card.Header>
       <Card.Body>
-        <Card.Title>{inventoryObj.quantity} </Card.Title>
-        <Card.Text>
-          {inventoryObj.pickupDate} {inventoryObj.pickupLocation}
-        </Card.Text>
+        <Card.Title>{inventoryObj.weekEndDate} </Card.Title>
+        <p>Pickup Location: {inventoryObj.pickupLocation}</p>
+        <ul>
+          {Array.isArray(inventoryObj.items) ? (
+            inventoryObj.items.map((item) => (
+              <li key={item.id}>
+                {item.foodType} Quantity: {String(item.quantity)} units, Pickup Date: {item.pickupDate}
+              </li>
+            ))
+          ) : (
+            <p>No items available.</p>
+          )}
+        </ul>
       </Card.Body>
       <Button
         onClick={() => {
@@ -41,10 +50,17 @@ export default function InventoryCard({ inventoryObj, onUpdate }) {
 InventoryCard.propTypes = {
   inventoryObj: PropTypes.shape({
     id: PropTypes.number.isRequired,
-    foodType: PropTypes.string.isRequired,
-    quantity: PropTypes.string.isRequired,
-    pickupDate: PropTypes.string.isRequired,
+    weekStartDate: PropTypes.string.isRequired,
+    weekEndDate: PropTypes.string.isRequired,
     pickupLocation: PropTypes.string.isRequired,
+    items: PropTypes.arrayOf(
+      PropTypes.shape({
+        id: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+        foodType: PropTypes.string,
+        quantity: PropTypes.string,
+        pickupDate: PropTypes.string,
+      }),
+    ),
   }).isRequired,
   onUpdate: PropTypes.func.isRequired,
 
