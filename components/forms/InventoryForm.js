@@ -20,13 +20,13 @@ function InventoryForm({ inventoryObj }) {
   useEffect(() => {
     if (inventoryObj.id) {
       setFormInput({
-        weekStartDate: inventoryObj.weekStartDate,
-        weekEndDate: inventoryObj.weekEndDate,
-        pickupLocation: inventoryObj.pickupLocation,
-        items: inventoryObj.items.map((item) => ({
+        weekStartDate: inventoryObj.weekStartDate || '',
+        weekEndDate: inventoryObj.weekEndDate || '',
+        pickupLocation: inventoryObj.pickupLocation || '',
+        items: inventoryObj.items?.map((item) => ({
           ...item,
           id: item.id || Date.now() + Math.random(), // Generate unique ID if not present
-        })),
+        })) || [],
       });
     }
   }, [inventoryObj]);
@@ -67,7 +67,7 @@ function InventoryForm({ inventoryObj }) {
     e.preventDefault();
     if (inventoryObj.id) {
       console.warn('updateInventory', formInput);
-      updateInventory({ ...formInput, userId: user.id }).then(() => router.push('/inventories'));
+      updateInventory({ ...formInput, id: inventoryObj.id, userId: user.id }).then(() => router.push('/inventories'));
     } else {
       const payload = { ...formInput, userId: user.id };
       createInventory(payload).then(() => router.push('/inventories'));
@@ -93,7 +93,7 @@ function InventoryForm({ inventoryObj }) {
           <Form.Control type="text" name="pickupLocation" required value={formInput.pickupLocation} onChange={handleChange} />
         </Form.Group>
 
-        {formInput.items.map((item, index) => (
+        {formInput.items.map((item) => (
           <div key={item.id} className="mb-3">
             <Form.Group>
               <Form.Label>Food Type</Form.Label>
@@ -125,7 +125,7 @@ function InventoryForm({ inventoryObj }) {
               />
             </Form.Group>
 
-            <Button variant="danger" onClick={() => handleRemoveItem(index)}>
+            <Button variant="danger" onClick={() => handleRemoveItem(item.id)}>
               Remove Item
             </Button>
           </div>
@@ -159,7 +159,7 @@ InventoryForm.propTypes = {
         quantity: PropTypes.string,
         pickupDate: PropTypes.string,
       }),
-    ),
+    ).isRequired,
   }),
 
 };

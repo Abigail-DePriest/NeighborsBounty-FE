@@ -1,7 +1,7 @@
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import { useAuth } from '../../../utils/context/authContext';
-import { getSingleInventory } from '../../../api/inventoryData';
+import { getInventoryById } from '../../../api/inventoryData';
 import InventoryForm from '../../../components/forms/InventoryForm';
 
 export default function EditInventory() {
@@ -12,7 +12,7 @@ export default function EditInventory() {
   const { user } = useAuth();
 
   useEffect(() => {
-    getSingleInventory(id).then(setEditInventory);
+    getInventoryById(id).then(setEditInventory);
   }, [id]);
 
   return (
