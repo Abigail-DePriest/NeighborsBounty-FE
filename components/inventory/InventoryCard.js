@@ -56,9 +56,9 @@ InventoryCard.propTypes = {
     items: PropTypes.arrayOf(
       PropTypes.shape({
         id: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-        foodType: PropTypes.string,
-        quantity: PropTypes.string,
-        pickupDate: PropTypes.string,
+        foodType: PropTypes.string.isRequired,
+        quantity: PropTypes.string.isRequired,
+        pickupDate: PropTypes.string.isRequired,
       }),
     ),
   }).isRequired,

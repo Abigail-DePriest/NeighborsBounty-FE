@@ -15,20 +15,25 @@ const getAllInventory = (uid) => new Promise((resolve, reject) => {
     .catch(reject);
 });
 
-const createInventory = (inventories) => new Promise((resolve, reject) => {
+const createInventory = (inventory) => new Promise((resolve, reject) => {
   fetch(`${endpoint}/inventories`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
     },
-    body: JSON.stringify(inventories),
+    body: JSON.stringify(inventory),
   })
     .then((response) => response.json())
     .then((data) => resolve(data))
     .catch(reject);
 });
 
+// eslint-disable-next-line consistent-return
 const updateInventory = (payload) => new Promise((resolve, reject) => {
+  if (!payload.id) {
+    return reject(new Error('Inventory ID is required for update.'));
+  }
+
   fetch(`${endpoint}/inventories/${payload.id}`, {
     method: 'PUT',
     headers: {
@@ -36,18 +41,18 @@ const updateInventory = (payload) => new Promise((resolve, reject) => {
     },
     body: JSON.stringify(payload),
   })
-    .then((data) => {
-      if (data) {
-        resolve(data);
-      } else {
-        resolve([]);
+    .then((response) => {
+      if (!response.ok) {
+        throw new Error(`HTTP error! Status: ${response.status}`);
       }
+      return response.json();
     })
-    .catch(reject);
+    .then((data) => resolve(data))
+    .catch((error) => reject(error));
 });
 
-const getSingleInventory = (inventory) => new Promise((resolve, reject) => {
-  fetch(`${endpoint}/inventories/${inventory}`, {
+const getInventoryById = (id) => new Promise((resolve, reject) => {
+  fetch(`${endpoint}/inventories/${id}`, {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',
@@ -72,6 +77,6 @@ export {
   getAllInventory,
   createInventory,
   updateInventory,
-  getSingleInventory,
+  getInventoryById,
   deleteInventory,
 };
