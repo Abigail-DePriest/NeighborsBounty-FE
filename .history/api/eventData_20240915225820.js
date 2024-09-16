@@ -137,7 +137,6 @@ export {
   getSingleEvent,
   getEventTypes,
   getEventTypeId,
-  getEventDetails,
   deleteEvent,
   eventSignUp,
   leaveEvent,

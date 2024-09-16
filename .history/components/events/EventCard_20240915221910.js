@@ -28,7 +28,7 @@ export default function EventCard({ eventObj, onUpdate, joined }) {
     eventSignUp(payload)
       .then(() => {
         onUpdate();
-        router.push(`/signup-management/${eventObj.id}`);
+        router.push(`/signups/${eventObj.id}`);
       })
       .catch((error) => {
         console.error('Failed to sign up for event:', error);
@@ -49,12 +49,6 @@ export default function EventCard({ eventObj, onUpdate, joined }) {
           router.push(`/events/edit/${eventObj.id}`);
         }}
       >Edit
-      </Button>
-      <Button
-        onClick={() => {
-          router.push(`/events/${eventObj.id}`);
-        }}
-      > Details
       </Button>
       {joined ? (
         <Button variant="secondary" disabled style={{ width: '100px' }}>
