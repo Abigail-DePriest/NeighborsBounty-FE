@@ -1,18 +1,38 @@
 import { useRouter } from 'next/router';
 import PropTypes from 'prop-types';
-import React from 'react';
+import { React } from 'react';
 import { Card, Button } from 'react-bootstrap';
-import { deleteEvent } from '../../api/eventData';
-// import { useAuth } from '../../utils/context/authContext';
+import { deleteEvent, eventSignUp } from '../../api/eventData';
+import { useAuth } from '../../utils/context/authContext';
 
-export default function EventCard({ eventObj, onUpdate }) {
+export default function EventCard({ eventObj, onUpdate, joined }) {
   const router = useRouter();
-  // const { user } = useAuth();
+  const { user } = useAuth();
+  // const [signup, setSignup] = useState({
+  //   id: '', event: '', role: '',
+  // });
 
   const deleteThisEvent = () => {
     if (window.confirm('Delete this event?')) {
       deleteEvent(eventObj.id).then(() => onUpdate());
     }
+  };
+  const joinEvent = () => {
+    console.warn('user id:', user.id, 'event object id:', eventObj.id);
+    // Prepare the payload with eventId and userId
+    const payload = {
+      user: user.id, // Make sure to use the correct user ID field
+      event: eventObj.id,
+    };
+
+    eventSignUp(payload)
+      .then(() => {
+        onUpdate();
+        router.push(`/signup-management/${eventObj.id}`);
+      })
+      .catch((error) => {
+        console.error('Failed to sign up for event:', error);
+      });
   };
 
   return (
@@ -30,11 +50,21 @@ export default function EventCard({ eventObj, onUpdate }) {
         }}
       >Edit
       </Button>
+      {joined ? (
+        <Button variant="secondary" disabled style={{ width: '100px' }}>
+          Joined
+        </Button>
+      ) : (
+        <Button variant="primary" onClick={joinEvent} style={{ width: '100px' }}>
+          Join
+        </Button>
+      )}
       <Button
         onClick={deleteThisEvent}
       >Delete
       </Button>
     </Card>
+
   );
 }
 
@@ -50,4 +80,5 @@ EventCard.propTypes = {
     }),
   }).isRequired,
   onUpdate: PropTypes.func.isRequired,
+  joined: PropTypes.bool.isRequired,
 };
