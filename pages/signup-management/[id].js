@@ -1,23 +1,24 @@
 import { useRouter } from 'next/router';
 import { useState, useEffect } from 'react';
 import { getSingleEvent } from '../../api/eventData';
+import SignUpCard from '../../components/signups/SignUpCard';
 
 const SignUpManagement = () => {
   const router = useRouter();
   const { id } = router.query;
 
-  const [signUp, setSignUp] = useState(null);
+  const [eventData, setEventData] = useState(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     if (id) {
       setLoading(true);
       getSingleEvent(id)
-        .then((signupData) => {
-          if (signupData && typeof signupData === 'object') {
-            setSignUp(signupData);
+        .then((data) => {
+          if (data && typeof data === 'object') {
+            setEventData(data);
           } else {
-            console.error('Invalid sign-up data:', signupData);
+            console.error('Invalid event data:', data);
           }
         })
         .finally(() => {
@@ -26,23 +27,26 @@ const SignUpManagement = () => {
     }
   }, [id]);
 
+  const handleLeaveEvent = (eventId) => {
+    // Add logic for leaving the event
+    console.log(`Leaving event with id: ${eventId}`);
+  };
+
   if (loading) {
     return <div>Loading...</div>;
   }
 
-  if (!signUp) {
-    return <div>No sign-up found.</div>;
+  if (!eventData) {
+    return <div>No event found.</div>;
   }
 
   return (
     <div>
       <h1>Sign-Up Management</h1>
-      <p>User: {signUp.name}</p>
-      <p>Event Name: {signUp.eventType.eventTypeName}</p>
-      <p>Location: {signUp.location}</p>
-      <p>Date: {signUp.eventDate}</p>
-      <p>Time: {signUp.eventTime}</p>
-      {/* Add more details or actions here */}
+      <SignUpCard
+        event={eventData}
+        onLeaveEvent={handleLeaveEvent}
+      />
     </div>
   );
 };

@@ -50,13 +50,19 @@ export default function EventCard({ eventObj, onUpdate, joined }) {
         }}
       >Edit
       </Button>
+      <Button
+        onClick={() => {
+          router.push(`/events/${eventObj.id}`);
+        }}
+      > Details
+      </Button>
       {joined ? (
         <Button variant="secondary" disabled style={{ width: '100px' }}>
           Joined
         </Button>
       ) : (
         <Button variant="primary" onClick={joinEvent} style={{ width: '100px' }}>
-          Join
+          Sign Up
         </Button>
       )}
       <Button

@@ -1,8 +1,8 @@
 // pages/events/signup.js
 import { useRouter } from 'next/router';
 import { useState, useEffect } from 'react';
-import { getSingleEvent } from '../../../api/eventData'; // Adjust based on your API setup
-import SignUpForm from '../../../components/forms/SignUpForm'; // Import the form component
+import { getSingleEvent } from '../../api/eventData'; // Adjust based on your API setup
+import SignUpForm from '../../components/forms/SignUpForm'; // Import the form component
 
 const SignUpPage = () => {
   const router = useRouter();
