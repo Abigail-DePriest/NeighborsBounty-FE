@@ -30,7 +30,7 @@ SignUpCard.propTypes = {
     eventType: PropTypes.shape({
       id: PropTypes.number,
       eventTypeName: PropTypes.string,
-    }),
+    }).isRequired,
     eventDate: PropTypes.string.isRequired,
     eventTime: PropTypes.string.isRequired,
     location: PropTypes.string.isRequired,

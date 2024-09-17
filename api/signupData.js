@@ -3,7 +3,7 @@ import { clientCredentials } from '../utils/client';
 const endpoint = clientCredentials.databaseURL;
 
 const getSignUps = (uid) => new Promise((resolve, reject) => {
-  fetch(`${endpoint}/signups`, {
+  fetch(`${endpoint}/signups?user=${uid}`, {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',
@@ -58,6 +58,18 @@ const getSignUpById = (id) => new Promise((resolve, reject) => {
     .catch(reject);
 });
 
+const getUserSignups = (payload) => new Promise((resolve, reject) => {
+  fetch(`${endpoint}/signups/get_user_signups/${payload.id}`, {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  })
+    .then((response) => response.json())
+    .then((data) => resolve(data))
+    .catch(reject);
+});
+
 const deleteSignUp = (id) => new Promise((resolve, reject) => {
   fetch(`${endpoint}/signups/${id}`, {
     method: 'DELETE',
@@ -74,5 +86,6 @@ export {
   createSignUp,
   updateSignUp,
   getSignUpById,
+  getUserSignups,
   deleteSignUp,
 };

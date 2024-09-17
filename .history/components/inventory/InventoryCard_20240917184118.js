@@ -16,7 +16,7 @@ export default function InventoryCard({ inventoryObj, onUpdate }) {
   };
 
   return (
-    <Card style={{ margin: '15px' }}>
+    <Card style={{ margin: '15px'}}>
       <Card.Header as="h5"> {inventoryObj.weekStartDate}</Card.Header>
       <Card.Body>
         <Card.Title>{inventoryObj.weekEndDate} </Card.Title>

@@ -1,9 +1,35 @@
-# React/Next.js Django Auth Template
+## NeighborsBounty-BE
+Neighbor’s Bounty is an application designed to streamline the organization of mutual aid food projects. It helps users track donations, manage meal preparation, and coordinate distribution efforts. The app aims to simplify the process of serving fresh, nutritious food to community members in need, while also expanding its functionality to meet broader needs.
 
-## Topics
-- [Get Started](#getting-started)
-- [Starting the Project](#starting-the-project)
+## Problem Statement
+One of the biggest challenges with sustaining mutual aid efforts is effective planning and organization. When it comes to serving food, there are several phases to consider and time is of the essence.
+
+## Features
+
+- Create and manage events, managing them by type.
+
+- User can sign-up for events and specific roles from available options. The system records these       sign-ups to manage participation and responsibility delegation.
+
+- Inventory management: track donations for the week. Inventory is associated with weekly Gleaning and Cooking    events and changes weekly.
 ___
+
+## Wireframe
+
+https://www.figma.com/board/ogsZtb2HnuLzodjqKXnJGQ/Neighbor's-Bounty?node-id=0-1&t=BdUBajC4cJpqygMH-1
+
+## Loom video
+
+https://www.loom.com/share/96349b895c984446b77112abca3f68e1?sid=d050d7ab-9a11-4a30-aa2c-5c9d234d2a1f
+
+## Tech Stack
+- **Next.js**
+- **React**
+- **Node.js**
+- **Firebase**
+- **Bootstrap**
+
+
+
 ## Getting Started
 ### Use Template
 #### 1. To get started, click the GREEN "Use this Template" button at the top of the repo

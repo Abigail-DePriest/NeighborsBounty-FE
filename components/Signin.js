@@ -1,3 +1,4 @@
+/* eslint-disable react/no-unescaped-entities */
 import React from 'react';
 import { Button } from 'react-bootstrap';
 import { signIn } from '../utils/auth';
@@ -17,7 +18,7 @@ function Signin() {
         paddingBlock: '0 5rem',
       }}
     >
-      <h1>Hi there!</h1>
+      <h1>Neighbor's Bounty</h1>
       <p>Click the button below to login!</p>
       <Button type="button" size="lg" className="copy-btn" onClick={signIn}>
         Sign In

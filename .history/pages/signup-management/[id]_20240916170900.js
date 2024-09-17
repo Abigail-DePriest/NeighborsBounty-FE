@@ -27,6 +27,11 @@ const SignUpManagement = () => {
     }
   }, [id]);
 
+  const handleLeaveEvent = (eventId) => {
+    // Add logic for leaving the event
+    console.log(`Leaving event with id: ${eventId}`);
+  };
+
   if (loading) {
     return <div>Loading...</div>;
   }
@@ -40,6 +45,7 @@ const SignUpManagement = () => {
       <h1>Sign-Up Management</h1>
       <SignUpCard
         event={eventData}
+        onLeaveEvent={handleLeaveEvent}
       />
     </div>
   );
