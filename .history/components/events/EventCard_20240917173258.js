@@ -16,6 +16,7 @@ export default function EventCard({ eventObj, onUpdate, joined }) {
     if (window.confirm('Delete this event?')) {
       deleteEvent(eventObj.id)
         .then(() => {
+          console.log('Event deleted successfully');
           onUpdate(); // Call the function to refresh or update the list
         })
         .catch((error) => {

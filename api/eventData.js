@@ -82,6 +82,18 @@ const getEventTypeId = (id) => new Promise((resolve, reject) => {
     .catch(reject);
 });
 
+const getEventById = (id) => new Promise((resolve, reject) => {
+  fetch(`${endpoint}/events/${id}`, {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  })
+    .then((response) => response.json())
+    .then((data) => resolve(data))
+    .catch(reject);
+});
+
 const getEventDetails = (id) => new Promise((resolve, reject) => {
   fetch(`${endpoint}/events/${id}`, {
     method: 'GET',
@@ -137,6 +149,7 @@ export {
   getSingleEvent,
   getEventTypes,
   getEventTypeId,
+  getEventById,
   getEventDetails,
   deleteEvent,
   eventSignUp,

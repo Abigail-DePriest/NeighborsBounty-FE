@@ -29,7 +29,7 @@ export default function NavBar() {
             <Link passHref href="/inventories">
               <Nav.Link>Inventory</Nav.Link>
             </Link>
-            <Link passHref href="/signup-management">
+            <Link passHref href="/my-signups">
               <Nav.Link>SignUps</Nav.Link>
             </Link>
             <Button variant="danger" onClick={signOut}>
